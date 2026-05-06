@@ -1,0 +1,93 @@
+<html><!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>STEAM Who?</title>
+<style>
+body {
+font-family: Arial;
+text-align: center;
+margin-top: 50px;
+}
+button {
+padding: 10px 20px;
+margin: 10px;
+font-size: 16px;
+}
+
+</style>
+</head>
+<body>
+
+<h1>STEAM Who?</h1>
+<p id="domanda">Pensa a un personaggio...</p>
+
+<button onclick="rispondi(true)">Sì</button>
+<button onclick="rispondi(false)">No</button>
+
+<p id="risultato"></p>
+
+<script>
+const personaggiOriginali = [
+{ nome: "Albert Einstein", scienza: true, vivo: false, uomo: true },
+{ nome: "Ada Lovelace", scienza: true, vivo: false, uomo: false },
+{ nome: "Elon Musk", scienza: true, vivo: true, uomo: true },
+{ nome: "Marie Curie", scienza: true, vivo: false, uomo: false }
+];
+
+const domande = [
+{ testo: "È nel campo scientifico?", chiave: "scienza" },
+{ testo: "È ancora vivo?", chiave: "vivo" },
+{ testo: "È un uomo?", chiave: "uomo" }
+];
+
+let personaggi;
+let indiceDomanda;
+
+function inizia() {
+personaggi = [...personaggiOriginali];
+indiceDomanda = 0;
+document.getElementById("risultato").innerText = "";
+mostraDomanda();
+}
+
+function mostraDomanda() {
+if (indiceDomanda < domande.length) {
+document.getElementById("domanda").innerText = domande[indiceDomanda].testo;
+} else {
+indovina();
+}
+}
+
+function rispondi(valore) {
+const chiave = domande[indiceDomanda].chiave;
+
+personaggi = personaggi.filter(p => p[chiave] === valore);
+
+indiceDomanda++;
+mostraDomanda();
+}
+
+function indovina() {
+const domandaEl = document.getElementById("domanda");
+const risultatoEl = document.getElementById("risultato");
+
+if (personaggi.length === 1) {
+
+domandaEl.innerText = "Ho indovinato!";
+risultatoEl.innerText = personaggi[0].nome;
+} else if (personaggi.length > 1) {
+domandaEl.innerText = "Non sono sicuro...";
+risultatoEl.innerText = "Forse: " + personaggi[0].nome;
+} else {
+domandaEl.innerText = "Non ho trovato il personaggio.";
+risultatoEl.innerText = "";
+}
+}
+
+inizia();
+</script>
+
+</body>
+
+</html>
